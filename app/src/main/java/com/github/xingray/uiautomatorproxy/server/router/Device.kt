@@ -6,6 +6,9 @@ import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.test.platform.app.InstrumentationRegistry
 import com.github.xingray.uiautomatorproxy.androidtest.AndroidTestHolder
+import com.github.xingray.uiautomatorproxy.device.Bounds
+import com.github.xingray.uiautomatorproxy.device.Hierarchy
+import com.github.xingray.uiautomatorproxy.device.Node
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
@@ -41,53 +44,113 @@ fun Application.device(androidTestHolder: AndroidTestHolder) {
 //    objectMapper.writeValue(outputStream, nodeInfoValue)
 //}
 
-private fun queryUiHierarchy(androidTestHolder: AndroidTestHolder): Map<String, Any?> {
+private fun queryUiHierarchy(androidTestHolder: AndroidTestHolder): Hierarchy {
     Log.d(TAG, "queryUiHierarchyJson: ")
     val uiAutomation: UiAutomation = androidTestHolder.uiAutomation
+    val hierarchy = Hierarchy()
+    hierarchy.rotation = androidTestHolder.uiDevice.displayRotation
     val nodeInfo = uiAutomation.rootInActiveWindow
-    return convertNodeInfoToMap(nodeInfo)
+    hierarchy.node = convertNodeInfoToNode(nodeInfo, 0)
+    return hierarchy
 }
 
-private fun convertNodeInfoToMap(nodeInfo: AccessibilityNodeInfo?): Map<String, Any?> {
-    val nodeInfoMap: MutableMap<String, Any?> = HashMap()
+
+/**
+ *
+ * private static void dumpNodeRec(AccessibilityNodeInfo node, XmlSerializer serializer,int index,
+ *             int width, int height) throws IOException {
+ *         serializer.startTag("", "node");
+ *         if (!nafExcludedClass(node) && !nafCheck(node))
+ *             serializer.attribute("", "NAF", Boolean.toString(true));
+ *         serializer.attribute("", "index", Integer.toString(index));
+ *         serializer.attribute("", "text", safeCharSeqToString(node.getText()));
+ *         serializer.attribute("", "resource-id", safeCharSeqToString(node.getViewIdResourceName()));
+ *         serializer.attribute("", "class", safeCharSeqToString(node.getClassName()));
+ *         serializer.attribute("", "package", safeCharSeqToString(node.getPackageName()));
+ *         serializer.attribute("", "content-desc", safeCharSeqToString(node.getContentDescription()));
+ *         serializer.attribute("", "checkable", Boolean.toString(node.isCheckable()));
+ *         serializer.attribute("", "checked", Boolean.toString(node.isChecked()));
+ *         serializer.attribute("", "clickable", Boolean.toString(node.isClickable()));
+ *         serializer.attribute("", "enabled", Boolean.toString(node.isEnabled()));
+ *         serializer.attribute("", "focusable", Boolean.toString(node.isFocusable()));
+ *         serializer.attribute("", "focused", Boolean.toString(node.isFocused()));
+ *         serializer.attribute("", "scrollable", Boolean.toString(node.isScrollable()));
+ *         serializer.attribute("", "long-clickable", Boolean.toString(node.isLongClickable()));
+ *         serializer.attribute("", "password", Boolean.toString(node.isPassword()));
+ *         serializer.attribute("", "selected", Boolean.toString(node.isSelected()));
+ *         serializer.attribute("", "visible-to-user", Boolean.toString(node.isVisibleToUser()));
+ *         serializer.attribute("", "bounds", AccessibilityNodeInfoHelper.getVisibleBoundsInScreen(
+ *                 node, width, height, false).toShortString());
+ *         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+ *             serializer.attribute("", "drawing-order",
+ *                     Integer.toString(Api24Impl.getDrawingOrder(node)));
+ *         }
+ *         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+ *             serializer.attribute("", "hint", safeCharSeqToString(Api26Impl.getHintText(node)));
+ *         }
+ *         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+ *             serializer.attribute("", "display-id",
+ *                     Integer.toString(Api30Impl.getDisplayId(node)));
+ *         }
+ *         int count = node.getChildCount();
+ *         for (int i = 0; i < count; i++) {
+ *             AccessibilityNodeInfo child = node.getChild(i);
+ *             if (child != null) {
+ *                 if (child.isVisibleToUser()) {
+ *                     dumpNodeRec(child, serializer, i, width, height);
+ *                     child.recycle();
+ *                 } else {
+ *                     Log.i(TAG, String.format("Skipping invisible child: %s", child));
+ *                 }
+ *             } else {
+ *                 Log.i(TAG, String.format("Null child %d/%d, parent: %s", i, count, node));
+ *             }
+ *         }
+ *         serializer.endTag("", "node");
+ *     }
+ *
+ */
+private fun convertNodeInfoToNode(nodeInfo: AccessibilityNodeInfo?, index: Int): Node? {
+
 
     if (nodeInfo == null) {
         Log.d(TAG, "convertNodeInfoToMap: nodeInfo is null")
-        return nodeInfoMap
+        return null
     }
 
-    nodeInfoMap["className"] = nodeInfo.className
-    nodeInfoMap["text"] = nodeInfo.text
-    nodeInfoMap["contentDescription"] = nodeInfo.contentDescription
-    nodeInfoMap["viewIdResourceName"] = nodeInfo.viewIdResourceName
-    nodeInfoMap["clickable"] = nodeInfo.isClickable
-    nodeInfoMap["enabled"] = nodeInfo.isEnabled
-    nodeInfoMap["focused"] = nodeInfo.isFocused
-    nodeInfoMap["packageName"] = nodeInfo.packageName
+    val node = Node()
+
+    node.index = index
+    node.text = nodeInfo.text?.toString()
+    node.resourceId = nodeInfo.viewIdResourceName
+    node.className = nodeInfo.className?.toString()
+    node.packageName = nodeInfo.packageName?.toString()
+    node.contentDesc = nodeInfo.contentDescription?.toString()
+    node.checkable = nodeInfo.isCheckable
+    node.checked = nodeInfo.isChecked
+    node.clickable = nodeInfo.isClickable
+    node.enabled = nodeInfo.isEnabled
+    node.focusable = nodeInfo.isFocusable
+    node.focused = nodeInfo.isFocused
+    node.scrollable = nodeInfo.isScrollable
+    node.longClickable = nodeInfo.isLongClickable
+    node.password = nodeInfo.isPassword
+    node.selected = nodeInfo.isSelected
+
     val rect = Rect()
     nodeInfo.getBoundsInScreen(rect)
-    nodeInfoMap["bounds"] = getBoundsAsMap(rect)
+    node.bounds = Bounds(rect.left, rect.top, rect.right, rect.bottom)
 
     // 遍历子节点
-    val childNodes: MutableList<Map<String, Any?>> = ArrayList()
+    val childNodes = mutableListOf<Node>()
     for (i in 0 until nodeInfo.childCount) {
-        val child = nodeInfo.getChild(i)
-        if (child != null) {
-            childNodes.add(convertNodeInfoToMap(child))
-        }
+        val child = nodeInfo.getChild(i) ?: continue
+        val childNode = convertNodeInfoToNode(child, i) ?: continue
+        childNodes.add(childNode)
     }
-    nodeInfoMap["children"] = childNodes
+    node.node = childNodes
 
-    return nodeInfoMap
-}
-
-private fun getBoundsAsMap(rect: Rect): Map<String, Int> {
-    val boundsMap: MutableMap<String, Int> = HashMap()
-    boundsMap["left"] = rect.left
-    boundsMap["top"] = rect.top
-    boundsMap["right"] = rect.right
-    boundsMap["bottom"] = rect.bottom
-    return boundsMap
+    return node
 }
 
 private fun screenshot() {
