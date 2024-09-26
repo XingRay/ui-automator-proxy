@@ -1,0 +1,147 @@
+[versions]
+agp = "8.5.0"
+kotlin = "1.9.0"
+
+# androidx
+androidxCoreKtx = "1.13.1"
+androidxLifecycle = "2.8.6"
+
+# compose
+androidxActivityCompose = "1.9.2"
+androidxComposeBom = "2024.09.02"
+
+androidxAppcompat = "1.7.0"
+
+androidxTestCore = "1.6.1"
+androidxTestUiautomator = "2.3.0"
+androidxTestExtJunit = "1.2.1"
+androidxTestEspressoCore = "3.6.1"
+
+androidxTestRules = "1.6.1"
+androidxTestRunner = "1.6.2"
+
+
+junit = "5.11.0"
+
+ktor = "2.3.12"
+
+
+androidfilepicker = "1.0.1"
+androidImageCropper = "4.5.0"
+
+androidxConstraintlayout = "2.2.0-beta01"
+colorpicker = "1.1.6"
+glide = "4.16.0"
+googleMaterial = "1.12.0"
+androidxRecyclerview = "1.3.2"
+
+gson = "2.10.1"
+jackson = "2.16.1"
+logbackClassic = "1.2.11"
+niftySlider = "1.4.6"
+
+taskVision = "0.10.14"
+ucrop = "2.2.8-native"
+
+viewpager2 = "1.1.0"
+xpopup = "2.10.0"
+
+[libraries]
+# https://developer.android.com/jetpack/androidx/releases/core
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
+
+# https://developer.android.com/jetpack/androidx/releases/lifecycle
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+
+# https://developer.android.com/jetpack/androidx/releases/activity
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
+
+# https://developer.android.com/jetpack/androidx/releases/compose
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+
+# https://developer.android.com/jetpack/androidx/releases/appcompat
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppcompat" }
+
+# https://developer.android.com/jetpack/androidx/releases/recyclerview
+androidx-recyclerview-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidxRecyclerview" }
+
+# https://developer.android.com/jetpack/androidx/releases/viewpager2
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
+
+# https://github.com/material-components/material-components-android
+com-google-android-material-material = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
+
+# https://developer.android.com/jetpack/androidx/releases/constraintlayout
+androidx-constraintlayout-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidxConstraintlayout" }
+
+# https://github.com/android/testing-samples
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTestCore" }
+androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidxTestUiautomator" }
+androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExtJunit" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTestEspressoCore" }
+
+# https://github.com/junit-team/junit5
+junit = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+
+# https://github.com/CanHub/Android-Image-Cropper
+android-image-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "androidImageCropper" }
+
+# https://github.com/rosuH/AndroidFilePicker
+androidfilepicker = { module = "me.rosuh:AndroidFilePicker", version.ref = "androidfilepicker" }
+
+# https://github.com/duanhong169/ColorPicker
+colorpicker = { module = "com.github.duanhong169:colorpicker", version.ref = "colorpicker" }
+
+# https://github.com/litao0621/NiftySlider
+nifty-slider = { module = "io.github.litao0621:nifty-slider", version.ref = "niftySlider" }
+nifty-slider-effect = { module = "io.github.litao0621:nifty-slider-effect", version.ref = "niftySlider" }
+
+# https://github.com/Yalantis/uCrop
+ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
+
+# https://github.com/li-xiaojun/XPopup
+xpopup = { module = "com.github.li-xiaojun:XPopup", version.ref = "xpopup" }
+
+# https://github.com/bumptech/glide
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+
+# https://ktor.io/
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logbackClassic" }
+
+# 序列化
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+# json
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
+ktor-serialization-jackson = { module = "io.ktor:ktor-serialization-jackson", version.ref = "ktor" }
+#xml
+ktor-serialization-kotlinx-xml = { module = "io.ktor:ktor-serialization-kotlinx-xml", version.ref = "ktor" }
+#cbor
+ktor-serialization-kotlinx-cbor = { module = "io.ktor:ktor-serialization-kotlinx-cbor", version.ref = "ktor" }
+#ProtoBuf
+ktor-serialization-kotlinx-protobuf = { module = "io.ktor:ktor-serialization-kotlinx-protobuf", version.ref = "ktor" }
+
+# https://github.com/FasterXML/jackson
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-dataformat-xml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml", version.ref = "jackson" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+
+# https://github.com/google/gson
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+# https://github.com/google/mediapipe
+tasks-vision = { module = "com.google.mediapipe:tasks-vision", version.ref = "taskVision" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
