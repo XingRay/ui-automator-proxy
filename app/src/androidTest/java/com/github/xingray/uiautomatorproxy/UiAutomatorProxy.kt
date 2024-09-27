@@ -25,7 +25,13 @@ class UiAutomatorProxy {
 
     @Before
     fun setUp() {
-
+        // Reset Configurator Wait Timeout
+        val configurator: androidx.test.uiautomator.Configurator = androidx.test.uiautomator.Configurator.getInstance()
+        configurator.setWaitForSelectorTimeout(0L) // Default 10000
+        configurator.setWaitForIdleTimeout(0L) // Default 10000
+        configurator.setActionAcknowledgmentTimeout(500) // Default 3000
+        configurator.setScrollAcknowledgmentTimeout(200) // Default 200
+        configurator.setKeyInjectionDelay(0) // Default 0
 
     }
 

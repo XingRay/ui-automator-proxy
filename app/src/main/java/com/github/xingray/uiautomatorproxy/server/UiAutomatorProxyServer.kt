@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.github.xingray.uiautomatorproxy.androidtest.AndroidTestHolder
 import com.github.xingray.uiautomatorproxy.server.router.device
+import com.github.xingray.uiautomatorproxy.server.router.hello
 import com.github.xingray.uiautomatorproxy.server.router.test
 import io.ktor.serialization.jackson.jackson
 import io.ktor.server.application.Application
@@ -101,6 +102,7 @@ class UiAutomatorProxyServer(val androidTestHolder: AndroidTestHolder) {
     }
 
     private fun Application.addRouter() {
+        hello()
         test()
         device(androidTestHolder)
     }
