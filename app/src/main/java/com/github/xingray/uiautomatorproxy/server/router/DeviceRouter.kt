@@ -43,6 +43,22 @@ fun Application.device(androidTestHolder: AndroidTestHolder) {
                     }
                 }
             }
+
+            route("/screenshot") {
+                get {
+                    val format = call.request.queryParameters["format"]?.lowercase() ?: "jpg"
+                    val quality = call.request.queryParameters["quality"]?.toIntOrNull() ?: 100
+                    val contentType = when (format) {
+                        "png" -> ContentType.Image.PNG
+                        "jpg", "jpeg" -> ContentType.Image.JPEG
+                        else -> ContentType.Image.Any
+                    }
+
+                    call.respondOutputStream(contentType) {
+                        Device().writeScreenShot(androidTestHolder, this, format, quality)
+                    }
+                }
+            }
         }
     }
 }

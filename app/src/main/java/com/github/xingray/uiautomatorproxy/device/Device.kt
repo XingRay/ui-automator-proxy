@@ -1,6 +1,7 @@
 package com.github.xingray.uiautomatorproxy.device
 
 import android.app.UiAutomation
+import android.graphics.Bitmap
 import android.graphics.Rect
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
@@ -245,5 +246,32 @@ class Device() {
 //            return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, "Internal Server Error!!!, time1:" + time1);
         val byteArrayInputStream = ByteArrayInputStream(imageData)
 //        return newChunkedResponse(Response.Status.OK, "application/octet-stream", byteArrayInputStream)
+    }
+
+    fun writeScreenShot(androidTestHolder: AndroidTestHolder, outputStream: OutputStream, format: String, quality: Int = 100) {
+        val bitmap: Bitmap? = androidTestHolder.uiAutomation.takeScreenshot()
+        if (bitmap == null) {
+            Log.d(TAG, "writeScreenShot: can not takeScreenshot")
+            outputStream.flush()
+            return
+        }
+
+        val compressFormat = when (format) {
+            "png" -> {
+                Bitmap.CompressFormat.PNG
+            }
+
+            "jpg", "jpeg" -> {
+                Bitmap.CompressFormat.JPEG
+            }
+
+            else -> {
+                Log.d(TAG, "writeScreenShot: unkonown type")
+                outputStream.flush()
+                return
+            }
+        }
+
+        bitmap.compress(compressFormat, quality, outputStream)
     }
 }
