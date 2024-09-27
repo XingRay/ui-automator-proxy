@@ -9,6 +9,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.uiautomator.AccessibilityNodeInfoDumper
 import com.github.xingray.uiautomatorproxy.androidtest.AndroidTestHolder
+import com.github.xingray.uiautomatorproxy.kotlin.trueOrNull
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -98,28 +99,29 @@ class Device() {
     fun convertNodeInfoToNodeFull(nodeInfo: AccessibilityNodeInfo, index: Int): Node? {
         val rect = Rect()
         nodeInfo.getBoundsInScreen(rect)
+        if (rect.isEmpty) {
+            return null
+        }
         val bounds = Bounds(rect.left, rect.top, rect.right, rect.bottom)
-
         val node = Node()
 
-//    node.index = index
+        node.index = index
         node.text = nodeInfo.text
         node.resourceId = nodeInfo.viewIdResourceName
         node.className = nodeInfo.className
 //    node.packageName = nodeInfo.packageName?.toString()
         node.contentDesc = nodeInfo.contentDescription
-//    node.checkable = nodeInfo.isCheckable.trueOrNull()
-//    node.checked = nodeInfo.isChecked.trueOrNull()
-//    node.clickable = nodeInfo.isClickable.trueOrNull()
-//    node.enabled = nodeInfo.isEnabled.trueOrNull()
-//    node.focusable = nodeInfo.isFocusable.trueOrNull()
-//    node.focused = nodeInfo.isFocused.trueOrNull()
-//    node.scrollable = nodeInfo.isScrollable.trueOrNull()
-//    node.longClickable = nodeInfo.isLongClickable.trueOrNull()
-//    node.password = nodeInfo.isPassword.trueOrNull()
-//    node.selected = nodeInfo.isSelected.trueOrNull()
+        node.checkable = nodeInfo.isCheckable.trueOrNull()
+        node.checked = nodeInfo.isChecked.trueOrNull()
+        node.clickable = nodeInfo.isClickable.trueOrNull()
+        node.enabled = nodeInfo.isEnabled.trueOrNull()
+        node.focusable = nodeInfo.isFocusable.trueOrNull()
+        node.focused = nodeInfo.isFocused.trueOrNull()
+        node.scrollable = nodeInfo.isScrollable.trueOrNull()
+        node.longClickable = nodeInfo.isLongClickable.trueOrNull()
+        node.password = nodeInfo.isPassword.trueOrNull()
+        node.selected = nodeInfo.isSelected.trueOrNull()
         node.bounds = bounds
-
 
         // 遍历子节点
         val childNodes = mutableListOf<Node>()
@@ -151,16 +153,16 @@ class Device() {
         node.className = nodeInfo.className
 //    node.packageName = nodeInfo.packageName?.toString()
         node.contentDesc = nodeInfo.contentDescription
-//    node.checkable = nodeInfo.isCheckable.trueOrNull()
-//    node.checked = nodeInfo.isChecked.trueOrNull()
-//    node.clickable = nodeInfo.isClickable.trueOrNull()
-//    node.enabled = nodeInfo.isEnabled.trueOrNull()
-//    node.focusable = nodeInfo.isFocusable.trueOrNull()
-//    node.focused = nodeInfo.isFocused.trueOrNull()
-//    node.scrollable = nodeInfo.isScrollable.trueOrNull()
-//    node.longClickable = nodeInfo.isLongClickable.trueOrNull()
-//    node.password = nodeInfo.isPassword.trueOrNull()
-//    node.selected = nodeInfo.isSelected.trueOrNull()
+//        node.checkable = nodeInfo.isCheckable.trueOrNull()
+//        node.checked = nodeInfo.isChecked.trueOrNull()
+//        node.clickable = nodeInfo.isClickable.trueOrNull()
+//        node.enabled = nodeInfo.isEnabled.trueOrNull()
+//        node.focusable = nodeInfo.isFocusable.trueOrNull()
+//        node.focused = nodeInfo.isFocused.trueOrNull()
+//        node.scrollable = nodeInfo.isScrollable.trueOrNull()
+//        node.longClickable = nodeInfo.isLongClickable.trueOrNull()
+//        node.password = nodeInfo.isPassword.trueOrNull()
+        node.selected = nodeInfo.isSelected.trueOrNull()
         node.bounds = bounds
 
 
