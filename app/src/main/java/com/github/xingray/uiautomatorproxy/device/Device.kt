@@ -181,4 +181,10 @@ class Device() {
 
         bitmap.compress(compressFormat, quality, outputStream)
     }
+
+    fun writeScreenShot2(androidTestHolder: AndroidTestHolder, outputStream: OutputStream, format: String, quality: Int = 100) {
+
+
+
+    }
 }

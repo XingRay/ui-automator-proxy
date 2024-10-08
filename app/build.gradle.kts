@@ -109,5 +109,5 @@ dependencies {
     // protobuf
 //    implementation(libs.ktor.serialization.kotlinx.protobuf)
 
-
+    implementation("com.github.xingray:kotlin-base:0.0.3")
 }
