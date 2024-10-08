@@ -6,11 +6,8 @@ import android.graphics.Rect
 import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.uiautomator.AccessibilityNodeInfoDumper
 import com.github.xingray.uiautomatorproxy.androidtest.AndroidTestHolder
 import com.github.xingray.uiautomatorproxy.kotlin.trueOrNull
-import java.io.ByteArrayOutputStream
-import java.io.IOException
 import java.io.OutputStream
 
 class Device() {
@@ -23,27 +20,6 @@ class Device() {
     fun writeUiHierarchyAsXml(androidTestHolder: AndroidTestHolder, outputStream: OutputStream) {
         androidTestHolder.uiDevice.dumpWindowHierarchy(outputStream)
     }
-
-    fun writeUiHierarchyAsXmlString(androidTestHolder: AndroidTestHolder, compressed: Boolean = true, maxDepth: Int = 50): String? {
-        // 启动监听命令的线程
-        androidTestHolder.uiDevice.setCompressedLayoutHierarchy(compressed)
-        val os = ByteArrayOutputStream()
-        try {
-            AccessibilityNodeInfoDumper.dumpWindowHierarchy(androidTestHolder.uiDevice, os, maxDepth)
-            return os.toString("UTF-8")
-        } catch (e: IOException) {
-            Log.d(TAG, "writeUiHierarchyAsXml: dumpWindowHierarchy got IOException: $e")
-        } finally {
-            try {
-                os.close()
-            } catch (e: IOException) {
-                // ignore
-            }
-        }
-
-        return null
-    }
-
 
     fun writeFullUiHierarchyAsJson(androidTestHolder: AndroidTestHolder, outputStream: OutputStream) {
         Log.d(TAG, "writeFullUiHierarchyAsJson: ")
