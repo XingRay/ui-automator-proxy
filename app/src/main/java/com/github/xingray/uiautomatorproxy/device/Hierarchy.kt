@@ -7,10 +7,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
 data class Hierarchy(
     @JsonProperty("rotation")
     @JacksonXmlProperty(localName = "rotation")
-    var rotation: Int=0,
+    var rotation: Int = 0,
 
     @JsonProperty("node")
     @JacksonXmlElementWrapper(localName = "node", useWrapping = false)
     @JacksonXmlProperty(localName = "node")
-    var node: Node?=null
+    var node: Node? = null,
+
+    @JsonProperty("packageName")
+    @JacksonXmlProperty(localName = "packageName")
+    var packageName: CharSequence? = null
 )

@@ -54,6 +54,7 @@ class Device() {
         val nodeInfo: AccessibilityNodeInfo? = uiAutomation.rootInActiveWindow
         if (nodeInfo != null) {
             hierarchy.node = convertNodeInfoToNodeFull(nodeInfo, 0)
+            hierarchy.packageName = nodeInfo.packageName
         }
         val time = System.currentTimeMillis() - startTimeMills
         Log.d(TAG, "queryUiHierarchy: time:${time} ms")
